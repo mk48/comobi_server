@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>comobi</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+  </head>
+  <body>
+
+    <div id="home">
+    <div id="roomid"></div>
+    </div>
+
+    <div id="typer" style="display:none">
+      <input type="text" onblur="onTxtChange(this)"/>
+    </div>
+
+<script>
+
+  var roomid;
+  var socket = io.connect('http://localhost:3000');
+
+  //------------------------------------------- room created -----------------
+  socket.on("roomcreated", function(data) {
+    roomid = data.roomid;
+    document.getElementById("roomid").innerHTML = data.roomid;
+  });
+
+  //------------------------------------------- mobile joined ----------------
+  socket.on("mobilejoined", function(data)  {
+    document.getElementById("home").style.display = 'none';
+    document.getElementById("typer").style.display = 'block';
+  });
+
+  function onTxtChange(txt) {
+    socket.emit("txt", {roomid:roomid, msg:txt.value});
+  }
+
+  (function() {
+    //------------------------------------------- send - web join --------------
+    socket.emit("webjoin", "");
+  })();
+
+</script>
+
+  </body>
+</html>
