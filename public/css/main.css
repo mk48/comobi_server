@@ -1,0 +1,28 @@
+#roomid {
+  font-size: 40px;
+  font-family: "Courier New";
+  margin-top: 20px;
+}
+
+.info {
+  font-size: 20px;
+  font-family: "Courier New";
+  margin-top: 50px;
+}
+
+.typer {
+  width: 90%;
+}
+
+
+.closebutton {
+  padding: 10px;
+}
+
+.closebuttonRight {
+  text-align: right;
+}
+
+.closebutton:hover {
+    cursor: pointer;
+}

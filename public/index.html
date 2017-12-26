@@ -4,23 +4,36 @@
     <meta charset="utf-8">
     <title>comobi</title>
 
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
     <script src="/socket.io/socket.io.js"></script>
 
   </head>
   <body>
 
     <div id="home">
-    <div id="roomid"></div>
+      <center>
+        <div class="info">
+        Open the *App* in mobile and type this PIN to connect
+        </div>
+        <br/> <br/>
+        <div id="roomid"></div>
+      </center>
     </div>
 
     <div id="typer" style="display:none">
-      <input type="text" onblur="onTxtChange(this)"/>
+      <span class="closebuttonRight">
+      <span class="closebutton" onclick="closeconnection()">x</span>
+      </span>
+      <br><br>
+      <center>
+      <textarea class="typer" rows="25" oninput="onTxtChange(this.value)"></textarea>
+      </center>
     </div>
 
 <script>
 
   var roomid;
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('http://9fa58615.ngrok.io/');
 
   //------------------------------------------- room created -----------------
   socket.on("roomcreated", function(data) {
@@ -34,8 +47,22 @@
     document.getElementById("typer").style.display = 'block';
   });
 
+  //------------------------------------------- close --------------------------
+  socket.on("close", function(data)  {
+    document.getElementById("home").style.display = 'block';
+    document.getElementById("typer").style.display = 'none';
+    document.getElementById("roomid").innerHTML = "";
+    //for new session
+    socket.emit("webjoin", "");
+  });
+
   function onTxtChange(txt) {
-    socket.emit("txt", {roomid:roomid, msg:txt.value});
+    socket.emit("txt", {"roomid":roomid, "msg":txt});
+  }
+
+  function closeconnection() {
+    document.getElementById("roomid").innerHTML = "";
+    socket.emit("close", {"roomid":roomid});
   }
 
   (function() {
