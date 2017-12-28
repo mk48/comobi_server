@@ -17,10 +17,13 @@
 
 .closebutton {
   padding: 10px;
+  font-size: 30px;
+  font-family: "monospace";
 }
 
 .closebuttonRight {
-  text-align: right;
+  position: absolute;
+  right: 0px;
 }
 
 .closebutton:hover {
